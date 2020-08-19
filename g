@@ -1,1 +1,1 @@
-cargo run
+(cargo run) 2>&1 | tee out
