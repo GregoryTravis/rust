@@ -1,21 +1,25 @@
 fn main() {
-  let xs = [4, 7, 6, 2, 3, 5, 8, 9, 1, 0].to_vec();
-  println!("hi");
-  println!("It has {} elements", xs.len());
-  println!("It has {:?} elements", xs);
-  println!("It has {:?} elements", &xs[1..=3]);
-  merge_sort(&xs);
-  //let sorted = merge_sort(&xs);
-  //println!("It has {:?} elements", sorted);
+  let mut xs: Vec<i32> = [4, 70, 6, 2, 3, 5, 8, 9, 1, 0].to_vec();
+  println!("{}, {:?}", xs.len(), xs);
+  xs[1] = 7;
+  println!("{}, {:?}", xs.len(), xs);
+  merge_sort(&mut xs);
+  println!("{}, {:?}", xs.len(), xs);
 }
 
-fn merge_sort(arr: &[i32]) {
-  if arr.len() == 1 {
-    let mid = arr.len() / 2;
-    let _sarr0: &[i32] = &arr[0..mid];
-    let _sarr1: &[i32] = &arr[mid..arr.len()];
-  } else if arr.len() > 1 {
-  } else if arr.len() == 0 {
-    panic!("??");
+// pub fn split_at_mut(&mut self, mid: usize) -> (&mut [T], &mut [T]) {
+//     let len = self.len();
+
+//fn merge_sort(xs: &mut Vec<i32>) {
+fn merge_sort(xs: &mut [i32]) {
+  if xs.len() > 1 {
+    let mid = xs.len() / 2;
+    let (sub0, sub1) = xs.split_at_mut(mid);
+    merge_sort(sub0);
+    merge_sort(sub1);
+  } else if xs.len() == 1 {
+    xs[0] = 111;
+  } else {
+    panic!("empty");
   }
 }
