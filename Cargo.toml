@@ -3,3 +3,7 @@
 name = "hello_world"
 version = "0.0.1"
 authors = [ "Greg Travis <greg.m.travis@gmail.com>" ]
+
+edition = "2018"
+[dependencies]
+rand = "0.7"
