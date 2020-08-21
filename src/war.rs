@@ -2,9 +2,14 @@
 
 use rand::Rng;
 
-static NUM_SUITS: i32 = 1;
-static LOW_CARD: i32 = 0;
-static HIGH_CARD: i32 = 3;
+static NUM_GAMES: i32 = 10;
+
+// static NUM_SUITS: i32 = 1;
+// static LOW_CARD: i32 = 0;
+// static HIGH_CARD: i32 = 3;
+static NUM_SUITS: i32 = 4;
+static LOW_CARD: i32 = 2;
+static HIGH_CARD: i32 = 14;
 
 // Cards are 2..14
 #[derive(Debug)]
@@ -57,12 +62,13 @@ impl Game {
     return Game { a: Player::new(a_cards), b: Player::new(b_cards) };
   }
 
-  pub fn play(&mut self) {
+  // return 0 for a winning, 1 for b
+  pub fn play(&mut self) -> usize {
     let mut num_rounds: i32 = 0;
     while !self.a.has_won() && !self.b.has_won() {
       let a_card = self.a.next_card();
       let b_card = self.b.next_card();
-      println!("draw {} {}", a_card, b_card);
+      //println!("draw {} {}", a_card, b_card);
       if a_card <= b_card {
         self.b.give(a_card);
         self.b.give(b_card);
@@ -71,13 +77,14 @@ impl Game {
         self.a.give(b_card);
       }
       num_rounds += 1;
-      println!("{:?}", self);
+      //println!("{:?}", self);
     }
 
     assert!(self.a.has_won() != self.b.has_won(), "");
 
     let which: &str = if self.a.has_won() { "a" } else { "b" };
-    println!("Win by {} after {} rounds", which, num_rounds)
+    println!("Win by {} after {} rounds", which, num_rounds);
+    return if self.a.has_won() { 0 } else { 1 };
   }
 }
 
@@ -126,8 +133,12 @@ fn remove_random(xs: &mut Vec<i32>) -> i32 {
 }
 
 pub fn demo() {
-  let mut g = Game::new();
-  println!("{:?}", g);
-  g.play();
-  println!("{:?}", g);
+  let mut scores = vec![0; 2];
+  for _ in 0..NUM_GAMES {
+    let mut g = Game::new();
+    println!("{:?}", g);
+    let winner_i = g.play();
+    scores[winner_i] += 1;
+  }
+  println!("scores: {:?}", scores);
 }
