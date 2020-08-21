@@ -1,5 +1,7 @@
 //extern crate rand;
 
+use std::time::Instant;
+
 use rand::Rng;
 
 static NUM_GAMES: i32 = 10;
@@ -134,11 +136,15 @@ fn remove_random(xs: &mut Vec<i32>) -> i32 {
 
 pub fn demo() {
   let mut scores = vec![0; 2];
+  let start = Instant::now();
   for _ in 0..NUM_GAMES {
     let mut g = Game::new();
     println!("{:?}", g);
     let winner_i = g.play();
     scores[winner_i] += 1;
   }
+  let duration: std::time::Duration = start.elapsed();
+  println!("Elapsed time: {:.2?}", duration);
+  println!("Elapsed time: {:.2?}s", duration.as_secs_f64());
   println!("scores: {:?}", scores);
 }
