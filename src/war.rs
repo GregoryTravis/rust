@@ -2,9 +2,16 @@
 
 use rand::Rng;
 
+static NUM_SUITS: i32 = 1;
+static LOW_CARD: i32 = 0;
+static HIGH_CARD: i32 = 3;
+
 // Cards are 2..14
 #[derive(Debug)]
 struct Player {
+  // We maintain the invariant that hand is never empty unless discard is as well, in which case
+  // the players has won. If hand empties and discard is not empty, the contents of discard are
+  // shuffled and moved to hand.
   hand: Vec<i32>, 
   discard: Vec<i32>, 
 }
@@ -12,6 +19,23 @@ struct Player {
 impl Player {
   pub fn new(cards: &[i32]) -> Player {
     return Player { hand: cards.to_vec(), discard: Vec::new() };
+  }
+
+  pub fn has_won(&self) -> bool {
+    return self.hand.len() == 0;
+  }
+
+  pub fn next_card(&mut self) -> i32 {
+    assert!(!self.has_won(), "");
+    let card = self.hand.pop().unwrap();
+    self.refresh_hand_maybe();
+    return card;
+  }
+
+  pub fn refresh_hand_maybe(&mut self) {
+    if self.hand.len() == 0 {
+      self.hand.append(&mut self.discard);
+    }
   }
 }
 
@@ -29,14 +53,16 @@ impl Game {
     return Game { a: Player::new(a_cards), b: Player::new(b_cards) };
   }
 
-  // pub fn play(&mut self) {
-  // }
+  pub fn play(&mut self) {
+    let card = self.a.next_card();
+    println!("card {}", card);
+  }
 }
 
 fn deck() -> Vec<i32> {
   let mut v = Vec::new();
-  for _ in 0..=3 {
-    for c in 2..=14 {
+  for _ in 0..=NUM_SUITS {
+    for c in LOW_CARD..=HIGH_CARD {
       v.push(c);
     }
   }
@@ -78,6 +104,8 @@ fn remove_random(xs: &mut Vec<i32>) -> i32 {
 }
 
 pub fn demo() {
-  let g = Game::new();
+  let mut g = Game::new();
+  println!("{:?}", g);
+  g.play();
   println!("{:?}", g);
 }
