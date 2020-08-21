@@ -1,4 +1,13 @@
-pub fn merge_sort(xs: &mut [i32]) {
+pub fn merge_sort_demo() {
+  let mut xs: Vec<i32> = [4, 70, 6, 2, 3, 5, 8, 9, 1, 0].to_vec();
+  //println!("{}, {:?}", xs.len(), xs);
+  xs[1] = 7;
+  println!("{}, {:?}", xs.len(), xs);
+  merge_sort(&mut xs);
+  println!("{}, {:?}", xs.len(), xs);
+}
+
+fn merge_sort(xs: &mut [i32]) {
   //println!("merge_sort {}, {:?}", xs.len(), xs);
   if xs.len() > 1 {
     let mid = xs.len() / 2;
