@@ -37,6 +37,10 @@ impl Player {
       self.hand.append(&mut self.discard);
     }
   }
+
+  pub fn give(&mut self, card: i32) {
+    self.discard.push(card);
+  }
 }
 
 #[derive(Debug)]
@@ -54,8 +58,26 @@ impl Game {
   }
 
   pub fn play(&mut self) {
-    let card = self.a.next_card();
-    println!("card {}", card);
+    let mut num_rounds: i32 = 0;
+    while !self.a.has_won() && !self.b.has_won() {
+      let a_card = self.a.next_card();
+      let b_card = self.b.next_card();
+      println!("draw {} {}", a_card, b_card);
+      if a_card <= b_card {
+        self.b.give(a_card);
+        self.b.give(b_card);
+      } else {
+        self.a.give(a_card);
+        self.a.give(b_card);
+      }
+      num_rounds += 1;
+      println!("{:?}", self);
+    }
+
+    assert!(self.a.has_won() != self.b.has_won(), "");
+
+    let which: &str = if self.a.has_won() { "a" } else { "b" };
+    println!("Win by {} after {} rounds", which, num_rounds)
   }
 }
 
