@@ -1,6 +1,10 @@
 mod mergesort;
+mod war;
 
 fn main() {
-  mergesort::demo();
-  //war::demo();
+  if false {
+    mergesort::demo();
+  }
+
+  war::demo();
 }
