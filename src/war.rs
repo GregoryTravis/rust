@@ -4,7 +4,7 @@ use std::time::Instant;
 
 use rand::Rng;
 
-static NUM_GAMES: i32 = 10;
+static NUM_GAMES: i32 = 1000;
 
 // static NUM_SUITS: i32 = 1;
 // static LOW_CARD: i32 = 0;
@@ -66,7 +66,7 @@ impl Game {
 
   // return 0 for a winning, 1 for b
   pub fn play(&mut self) -> usize {
-    let mut num_rounds: i32 = 0;
+    //let mut num_rounds: i32 = 0;
     while !self.a.has_won() && !self.b.has_won() {
       let a_card = self.a.next_card();
       let b_card = self.b.next_card();
@@ -78,14 +78,14 @@ impl Game {
         self.a.give(a_card);
         self.a.give(b_card);
       }
-      num_rounds += 1;
+      //num_rounds += 1;
       //println!("{:?}", self);
     }
 
     assert!(self.a.has_won() != self.b.has_won(), "");
 
-    let which: &str = if self.a.has_won() { "a" } else { "b" };
-    println!("Win by {} after {} rounds", which, num_rounds);
+    //let which: &str = if self.a.has_won() { "a" } else { "b" };
+    //println!("Win by {} after {} rounds", which, num_rounds);
     return if self.a.has_won() { 0 } else { 1 };
   }
 }
@@ -139,12 +139,13 @@ pub fn demo() {
   let start = Instant::now();
   for _ in 0..NUM_GAMES {
     let mut g = Game::new();
-    println!("{:?}", g);
+    //println!("{:?}", g);
     let winner_i = g.play();
     scores[winner_i] += 1;
   }
   let duration: std::time::Duration = start.elapsed();
   println!("Elapsed time: {:.2?}", duration);
   println!("Elapsed time: {:.2?}s", duration.as_secs_f64());
+  println!("gps {}", NUM_GAMES as f64 / duration.as_secs_f64());
   println!("scores: {:?}", scores);
 }
