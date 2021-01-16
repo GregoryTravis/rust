@@ -8,6 +8,7 @@
 // - implement iter for IntervalSet
 // - generics for TC tag
 // - better cs merge
+// - start is with default vec?
 
 #[derive(Debug)]
 struct IntervalSet {
@@ -87,4 +88,27 @@ fn merge_changesets(cs0: &Vec<Change>, cs1: &Vec<Change>) -> Vec<TaggedChange> {
   return tcs;
 }
 
-//fn union(
+/*
+fn union(is0 &IntervalSet, is1 &IntervalSet) -> IntervalSet {
+  let mut union = IntervalSet { intervals: Vec::new() };
+  let cs0 = is_to_changes(&is0);
+  let cs1 = is_to_changes(&is1);
+  let merged = merge_changesets(&cs0, &cs1);
+  let mut areOpen: [bool; 2];
+  let mut insideUnion: bool = false;
+  let mut outputCS = Vec<Change>::new();
+  for tc in merged.iter() {
+    let mut ii = 0;
+    match tc {
+      TaggedChange { c: Change { i, Open }, tag: t } => {
+        areOpen[t] = true;
+        ii = i;
+      },
+      TaggedChange { c: Change { i, Close }, tag: t } => areOpen[t] = false,
+    }
+    let newInsideUnion = areOpen[0] && areOpen[1];
+    if newInsideUnion && !insideUnion {
+    }
+  }
+}
+*/
