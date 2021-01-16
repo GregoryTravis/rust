@@ -216,7 +216,7 @@ pub fn demo() {
   let duration: std::time::Duration = start.elapsed();
   println!("Elapsed time: {:.2?}", duration);
   println!("Elapsed time: {:.2?}s", duration.as_secs_f64());
-  println!("gps {}", NUM_GAMES as f64 / duration.as_secs_f64());
+  println!("games/sec {}", NUM_GAMES as f64 / duration.as_secs_f64());
   println!("scores: {:?}", scores);
   println!("total {} rounds {} wars", total_num_rounds, total_num_wars);
 }
